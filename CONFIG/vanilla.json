@@ -1,0 +1,6 @@
+{
+  "model_name": "vanilla_blenderbot_small",
+  "pretrained_model_path": "/model/zhuoer/BlenderBot_small",
+  "custom_config_path": null,
+  "gradient_checkpointing": false
+}
