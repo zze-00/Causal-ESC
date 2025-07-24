@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 from transformer import _get_clones
 
-from torch_geometric.nn.conv import TransformerConv
+from torch_geometric1.nn.conv import TransformerConv
 
 class TRANSGRAPH(nn.Module):
     def __init__(self, in_channels, out_channels, num_relations, heads, num_layers):
