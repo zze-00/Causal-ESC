@@ -16,8 +16,8 @@ class TRANSGRAPH(nn.Module):
         conv = TransformerConv(in_channels = in_channels, 
                                out_channels = out_channels,
                                heads = heads,
-                               beta = False,
-                               edge_dim = None,
+                               beta = True,
+                               edge_dim = 768,
                                )
         self.convs = _get_clones(conv, num_layers)
 
@@ -29,12 +29,13 @@ class TRANSGRAPH(nn.Module):
 
     def forward(self, x, edge_index, edge_type,edge_repre):
         enc_emb = x
-
+        enc_edge = edge_repre
         for i in range(self.num_layers):
-            x = self.convs[i](x=x, edge_index=edge_index)
+            x, edge_repre = self.convs[i](x=x, edge_index=edge_index, edge_attr=edge_repre)
             x = x + enc_emb
+            edge_repre = edge_repre + enc_edge
           
-        # x = x + enc_emb    # skip connection
+        x = x + enc_emb    # skip connection
         x = self.LayerNorm (x)
         x = self.fflayer2(F.relu(self.fflayer1(x))) + x
         x = self.LayerNorm(x)
